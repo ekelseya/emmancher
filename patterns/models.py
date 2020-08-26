@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 # Create your models here.
@@ -37,6 +38,11 @@ class Pattern(models.Model):
 
     def __str__(self):
         return f'{self.company} {self.name}'
+
+    def get_absolute_url(self):
+        """Returns the url to access the detail record for this pattern"""
+        return reverse('pattern-detail', args=[str(self.id)])
+
 
 class PatternView(models.Model):
     view = models.CharField(max_length=10)
