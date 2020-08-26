@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
@@ -47,10 +48,20 @@ class Pattern(models.Model):
 class PatternView(models.Model):
     view = models.CharField(max_length=10)
     pattern = models.ForeignKey('Pattern', on_delete=models.CASCADE)
-    pattern_type = models.ManyToManyField('PatternType', null=True)
+    pattern_type = models.ManyToManyField('PatternType')
+    fabric_req = models.CharField(max_length=20, help_text='Enter the fabric requirements in yards')
 
     class Meta:
         ordering = ['view']
 
     def __str__(self):
         return f'{self.pattern} {self.view}'
+
+
+class Project(models.Model):
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
+    pattern = models.ForeignKey('PatternView', on_delete=models.CASCADE)
+    fabric = models.CharField(max_length=100)
+    start_date = models.DateField
+    finish_date = models.DateField
+    notes = models.TextField

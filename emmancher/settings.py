@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # My apps
+    'users',
     'patterns',
 ]
 
@@ -81,6 +82,10 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Override default user model
+
+AUTH_USER_MODEL = 'users.User'
 
 
 # Password validation
