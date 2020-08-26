@@ -1,0 +1,2 @@
+# emmancher
+Django practice
