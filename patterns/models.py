@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
@@ -55,13 +57,19 @@ class PatternView(models.Model):
         ordering = ['view']
 
     def __str__(self):
-        return f'{self.pattern} {self.view}'
+        return f'{self.pattern} view {self.view}'
 
 
 class Project(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,)
     pattern = models.ForeignKey('PatternView', on_delete=models.CASCADE)
     fabric = models.CharField(max_length=100)
-    start_date = models.DateField
-    finish_date = models.DateField
-    notes = models.TextField
+    start_date = models.DateField(default=datetime.now)
+    finish_date = models.DateField(blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ['owner']
+
+    def __str__(self):
+        return f'{self.owner}\'s {self.pattern}'
